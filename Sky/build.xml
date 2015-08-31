@@ -1,0 +1,31 @@
+<project name="deployTool" default="jar" >
+
+	<target name="compile">
+		<mkdir dir="${basedir}/bin/classes"/>
+		<copy todir="${basedir}/bin/classes">
+			<fileset dir="${basedir}/src/" includes="**/*.xml" />
+		</copy>
+		<javac source="1.6" destdir="${basedir}/bin/classes" debug="on">
+			<src path="${basedir}/src/"/>
+			<include name="com/**"/>
+			<classpath>
+				<fileset dir="${basedir}/lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jar" description="Create the SFDCTools.jar file" depends="compile">
+		<jar destfile="${basedir}/lib/SkyJsonTest.jar" basedir="${basedir}/bin/classes"/>
+	</target>
+<!---->
+<!--	<target name="local-clean" extensionOf="clean" description="Clean all generated stuff">-->
+<!--		<delete dir="${basedir}/bin"/>-->
+<!--		<delete dir="${basedir}/lib/source"/>-->
+<!--		<delete dir="${basedir}/lib/classes"/>-->
+<!--	</target>-->
+
+	<target name="cycle" description="Clean all generated stuff then rebuild everything" depends=" jar"/>
+
+</project>
